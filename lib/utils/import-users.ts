@@ -1,9 +1,6 @@
 import axios from "axios";
 import FormData from "form-data";
-import dotenv from "dotenv";
 import { Readable } from "stream";
-
-dotenv.config();
 
 type IImportUsersArguments = {
   users: any[];
