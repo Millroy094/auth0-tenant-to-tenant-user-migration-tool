@@ -12,6 +12,13 @@
   },
   "author": "Millroy Fernandes",
   "license": "MIT",
+  "repository": "https://github.com/Millroy094/auth0-tenant-to-tenant-user-migration-tool",
+  "homepage": "https://github.com/Millroy094/auth0-tenant-to-tenant-user-migration-tool",
+  "keywords": [
+    "auth0",
+    "user-migration-tool",
+    "nodejscli"
+  ],
   "devDependencies": {
     "@types/lodash": "^4.17.19",
     "@types/node": "^24.0.4",
