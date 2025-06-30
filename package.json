@@ -1,6 +1,6 @@
 {
   "name": "auth0-tenant-to-tenant-user-migration-tool",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Auth0 tenant to tenant user migration tool",
   "main": "dist/index.js",
   "bin": {
