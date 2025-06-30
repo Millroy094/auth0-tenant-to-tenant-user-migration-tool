@@ -34,12 +34,13 @@ jobs:
           git fetch origin main
           CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
           echo "Changed files: $CHANGED_FILES"
-          if echo "$CHANGED_FILES" | grep -E '\.(js|ts|json|mjs|cjs|jsx|tsx|md)$'; then
+          if echo "$CHANGED_FILES" | grep -E '\.(js|ts|json|mjs|cjs|jsx|tsx)$'; then
             echo "Code changes detected."
             echo "run_versioning=true" >> $GITHUB_ENV
           else
             echo "No code changes detected."
             echo "run_versioning=false" >> $GITHUB_ENV
+          fi
 
       - name: Bump version and generate changelog
         if: env.run_versioning == 'true'
