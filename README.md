@@ -28,7 +28,7 @@ Before using this tool, you need to:
 
 These credentials will be used by the CLI to authenticate and perform operations on your behalf.
 
-## 📥 Installation 
+## 📥 Installation
 
 Install the CLI globally using npm:
 
