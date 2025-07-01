@@ -28,6 +28,7 @@
     "nodejscli"
   ],
   "devDependencies": {
+    "@changesets/cli": "^2.29.5",
     "@types/lodash": "^4.17.19",
     "@types/node": "^24.0.4",
     "standard-version": "^9.5.0",

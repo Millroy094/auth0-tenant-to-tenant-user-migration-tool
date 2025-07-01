@@ -11,6 +11,11 @@ A Node.js CLI tool to help you **migrate users from one Auth0 tenant to another*
 - Secure handling of credentials
 - No need to pass credentials via command line
 
+### 🆕 New Features
+
+- **Interactive Field Selection**: During the migration process, you'll be prompted to choose which user fields to include—giving you full control over the data being transferred.
+- **Upsert Option**: You can now choose whether to update existing users or create new ones during migration, all through a simple interactive prompt.
+
 ## ⚙️ Prerequisites
 
 Before using this tool, you need to:
