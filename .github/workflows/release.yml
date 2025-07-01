@@ -35,7 +35,7 @@ jobs:
           mkdir -p .changeset
           cat > .changeset/manual-release.md <<EOF
           ---
-          "your-package-name": ${{ github.event.inputs.releaseType }}
+          "auth0-tenant-to-tenant-user-migration-tool": ${{ github.event.inputs.releaseType }}
           ---
 
           ${{ github.event.inputs.summary }}
