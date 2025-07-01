@@ -1,5 +1,11 @@
 # auth0-tenant-to-tenant-user-migration-tool
 
+## 1.3.3
+
+### Patch Changes
+
+- user can choose fields they want to migrate and do an upsert
+
 ## 1.3.2
 
 ### Patch Changes
