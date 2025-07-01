@@ -99,7 +99,7 @@ export async function requestMigrationDetails(): Promise<{
       name: "email",
       value: "email",
       checked: true,
-      disabled: "Required field",
+      disabled: "Selected by default",
     },
     { name: "user_id", value: "user_id" },
     { name: "email_verified", value: "email_verified" },
@@ -125,12 +125,8 @@ export async function requestMigrationDetails(): Promise<{
     {
       type: "checkbox",
       name: "fields",
-      message: "Select the Auth0 user fields you want to migrate:",
+      message: "Select the Auth0 user fields you want to migrate :",
       choices: userFields,
-      validate: (input: unknown) =>
-        Array.isArray(input) && input.includes("email")
-          ? true
-          : "Email is required and cannot be deselected.",
     },
 
     {
@@ -141,5 +137,5 @@ export async function requestMigrationDetails(): Promise<{
     },
   ]);
 
-  return answers;
+  return { fields: [...answers.fields, "email"], upsert: answers.upsert };
 }

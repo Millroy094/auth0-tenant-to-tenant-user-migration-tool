@@ -41,6 +41,28 @@ async function waitForJobCompletion(
   throw new Error("Timed out waiting for import job to complete.");
 }
 
+async function getImportJobErrors(
+  jobId: string,
+  token: string,
+  tenantDomain: string
+): Promise<any[]> {
+  try {
+    const response = await axios.get(
+      `https://${tenantDomain}/api/v2/jobs/${jobId}/errors`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    logger.error("❌ Failed to fetch import job errors.");
+    logger.error(error.response?.data || error.message);
+    return [];
+  }
+}
+
 async function importUsers({
   users,
   token,
@@ -88,6 +110,28 @@ async function importUsers({
   logger.info(`Users Inserted: ${finalStatus.summary.inserted}`);
   logger.info(`Users Updated: ${finalStatus.summary.updated}`);
   logger.info(`Users Failed: ${finalStatus.summary.failed}`);
+
+  if (finalStatus.summary.failed > 0) {
+    const errors = await getImportJobErrors(jobId, token, tenantDomain);
+    if (errors.length > 0) {
+      logger.warn("⚠️ Import Errors:");
+      errors.forEach((err, index) => {
+        const userId = err.user?.user_id || "N/A";
+        const name = err.user?.name || "N/A";
+        const errorMessages = (err.errors || [])
+          .map((e: any) => `${e.message} (code: ${e.code})`)
+          .join("; ");
+
+        logger.warn(
+          `User ${
+            index + 1
+          }:\n  - user_id: ${userId}\n  - name: ${name}\n  - error: ${errorMessages}`
+        );
+      });
+    } else {
+      logger.warn("⚠️ No detailed error information returned.");
+    }
+  }
 }
 
 export default importUsers;
