@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/Millroy094/auth0-tenant-to-tenant-user-migration-tool/compare/v1.2.0...v1.3.0) (2025-07-01)
+
+
+### Features
+
+* graceful user force close ([a6cfcdb](https://github.com/Millroy094/auth0-tenant-to-tenant-user-migration-tool/commit/a6cfcdbf9c83c9a07bbf47ccde87f9a7312d2e30))
+
 ## [1.2.0](https://github.com/Millroy094/auth0-tenant-to-tenant-user-migration-tool/compare/v1.1.0...v1.2.0) (2025-07-01)
 
 
