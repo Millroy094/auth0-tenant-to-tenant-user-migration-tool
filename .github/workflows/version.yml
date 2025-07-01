@@ -24,4 +24,5 @@ jobs:
         with:
           publish: false
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+
