@@ -13,7 +13,6 @@ on:
 
 permissions:
   contents: write
-
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -44,8 +43,28 @@ jobs:
       - name: Run Changeset version
         run: npx changeset version
 
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "chore: version bump via manual release"
+          git push
+
       - name: Build project
         run: npm run build
+
+      - name: Fix package.json issues
+        run: npm pkg fix
+
+      - name: Check if version already exists on npm
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          EXISTS=$(npm view auth0-tenant-to-tenant-user-migration-tool versions | grep $VERSION || true)
+          if [ ! -z "$EXISTS" ]; then
+            echo "Version $VERSION already exists on npm. Skipping publish."
+            exit 1
+          fi
 
       - name: Tag release
         run: |
