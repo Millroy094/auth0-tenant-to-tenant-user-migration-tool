@@ -89,3 +89,57 @@ export async function requestEmail(): Promise<string> {
 
   return answers.emailAddress;
 }
+
+export async function requestMigrationDetails(): Promise<{
+  fields: string[];
+  upsert: boolean;
+}> {
+  const userFields = [
+    {
+      name: "email",
+      value: "email",
+      checked: true,
+      disabled: "Required field",
+    },
+    { name: "user_id", value: "user_id" },
+    { name: "email_verified", value: "email_verified" },
+    { name: "username", value: "username" },
+    { name: "phone_number", value: "phone_number" },
+    { name: "phone_verified", value: "phone_verified" },
+    { name: "given_name", value: "given_name" },
+    { name: "family_name", value: "family_name" },
+    { name: "name", value: "name" },
+    { name: "nickname", value: "nickname" },
+    { name: "picture", value: "picture" },
+    { name: "created_at", value: "created_at" },
+    { name: "updated_at", value: "updated_at" },
+    { name: "identities", value: "identities" },
+    { name: "app_metadata", value: "app_metadata" },
+    { name: "user_metadata", value: "user_metadata" },
+    { name: "last_login", value: "last_login" },
+    { name: "logins_count", value: "logins_count" },
+    { name: "multifactor", value: "multifactor" },
+  ];
+
+  const answers = await inquirer.prompt([
+    {
+      type: "checkbox",
+      name: "fields",
+      message: "Select the Auth0 user fields you want to migrate:",
+      choices: userFields,
+      validate: (input: unknown) =>
+        Array.isArray(input) && input.includes("email")
+          ? true
+          : "Email is required and cannot be deselected.",
+    },
+
+    {
+      type: "confirm",
+      name: "upsert",
+      message: "Do you want to upsert users (update if they already exist)?",
+      default: false,
+    },
+  ]);
+
+  return answers;
+}

@@ -8,19 +8,9 @@ import {
   requestAuthOConfiguration,
   requestConnection,
   requestEmail,
+  requestMigrationDetails,
 } from "./utils/request-prerequiste-data";
 import importUsers from "./utils/import-users";
-
-const FIELDS_TO_EXTRACT = [
-  "user_id",
-  "email",
-  "email_verified",
-  "name",
-  "family_name",
-  "given_name",
-  "user_metadata",
-  "app_metadata",
-];
 
 const migrateUsers = async (): Promise<void> => {
   const {
@@ -69,6 +59,8 @@ const migrateUsers = async (): Promise<void> => {
   }
 
   if (exportedUsers.length > 0) {
+    const { fields: fieldsToExtract, upsert } = await requestMigrationDetails();
+
     const {
       domain: destinationDomain,
       clientId: destinationClientId,
@@ -82,8 +74,13 @@ const migrateUsers = async (): Promise<void> => {
     );
 
     const usersToImport = exportedUsers.map((user) => {
-      const newUser = pick(user, FIELDS_TO_EXTRACT);
-      return { ...newUser, user_id: newUser.user_id.replace("auth0|", "") };
+      const newUser = pick(user, fieldsToExtract);
+      return {
+        ...newUser,
+        ...(newUser.user_id && {
+          user_id: newUser.user_id.replace("auth0|", ""),
+        }),
+      };
     });
 
     const destinationConnectionId = await requestConnection(
@@ -98,6 +95,7 @@ const migrateUsers = async (): Promise<void> => {
       token: destinationToken,
       connectionId: destinationConnectionId,
       tenantDomain: destinationDomain,
+      isUpsert: upsert,
     });
   }
 };
