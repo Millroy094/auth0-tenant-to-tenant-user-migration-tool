@@ -12,6 +12,11 @@ import {
 } from "./utils/request-prerequiste-data";
 import importUsers from "./utils/import-users";
 
+process.once("SIGINT", () => {
+  console.log("\n🛑 Gracefully shutting down...");
+  process.exit(0);
+});
+
 const migrateUsers = async (): Promise<void> => {
   const {
     domain: sourceDomain,
@@ -35,7 +40,6 @@ const migrateUsers = async (): Promise<void> => {
       sourceToken,
       emailAddress
     );
-
     if (foundUsers.length > 0) {
       exportedUsers = exportedUsers.concat(foundUsers);
     }
@@ -65,7 +69,7 @@ const migrateUsers = async (): Promise<void> => {
       domain: destinationDomain,
       clientId: destinationClientId,
       clientSecret: destinationClientSecret,
-    } = await requestAuthOConfiguration("source");
+    } = await requestAuthOConfiguration("destination");
 
     const destinationToken = await getManagementToken(
       destinationDomain,
@@ -97,9 +101,16 @@ const migrateUsers = async (): Promise<void> => {
       tenantDomain: destinationDomain,
       isUpsert: upsert,
     });
+  } else {
+    console.log("⚠️ No users found to migrate.");
   }
 };
 
 migrateUsers().catch((err) => {
-  console.error("An error occurred:", err);
+  if (err.message === "User force closed the prompt with SIGINT") {
+    console.log("\n🛑 Migration cancelled by user.");
+  } else {
+    console.error("❌ An error occurred during migration:", err);
+  }
+  process.exit(1);
 });

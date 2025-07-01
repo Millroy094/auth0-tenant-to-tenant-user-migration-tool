@@ -84,12 +84,10 @@ async function importUsers({
   logger.info(`Type: ${finalStatus.type}`);
   logger.info(`Created At: ${finalStatus.created_at}`);
   logger.info(`Connection ID: ${finalStatus.connection_id}`);
-  logger.info(`Users Processed: ${finalStatus.users_processed}`);
-  logger.info(`Users Inserted: ${finalStatus.users_inserted}`);
-  logger.info(`Users Failed: ${finalStatus.users_failed}`);
-  if (finalStatus.location) {
-    logger.warn(`Error Report: ${finalStatus.location}`);
-  }
+  logger.info(`Users Processed: ${finalStatus.summary.total}`);
+  logger.info(`Users Inserted: ${finalStatus.summary.inserted}`);
+  logger.info(`Users Updated: ${finalStatus.summary.updated}`);
+  logger.info(`Users Failed: ${finalStatus.summary.failed}`);
 }
 
 export default importUsers;
