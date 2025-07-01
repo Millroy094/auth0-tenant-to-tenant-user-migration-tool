@@ -7,13 +7,8 @@
     "migrate-auth0-tenant-users": "./dist/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "npm run build",
-    "build": "tsc",
-    "release": "standard-version",
-    "release:patch": "standard-version --release-as patch",
-    "release:minor": "standard-version --release-as minor",
-    "release:major": "standard-version --release-as major"
+    "build": "tsc"
   },
   "files": [
     "dist"
@@ -31,7 +26,6 @@
     "@changesets/cli": "^2.29.5",
     "@types/lodash": "^4.17.19",
     "@types/node": "^24.0.4",
-    "standard-version": "^9.5.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
