@@ -1,6 +1,7 @@
 import axios from "axios";
 import FormData from "form-data";
 import { Readable } from "stream";
+import logger from "./logger";
 
 type IImportUsersArguments = {
   users: any[];
@@ -70,24 +71,24 @@ async function importUsers({
   );
 
   const jobId = response.data.id;
-  console.log(
+  logger.info(
     `📤 Import job started. Waiting for completion (Job ID: ${jobId})...`
   );
 
   const finalStatus = await waitForJobCompletion(jobId, token, tenantDomain);
 
-  console.log("📋 Import Job Summary");
-  console.log("----------------------");
-  console.log(`Job ID: ${finalStatus.id}`);
-  console.log(`Status: ${finalStatus.status}`);
-  console.log(`Type: ${finalStatus.type}`);
-  console.log(`Created At: ${finalStatus.created_at}`);
-  console.log(`Connection ID: ${finalStatus.connection_id}`);
-  console.log(`Users Processed: ${finalStatus.users_processed}`);
-  console.log(`Users Inserted: ${finalStatus.users_inserted}`);
-  console.log(`Users Failed: ${finalStatus.users_failed}`);
+  logger.info("📋 Import Job Summary");
+  logger.info("----------------------");
+  logger.info(`Job ID: ${finalStatus.id}`);
+  logger.info(`Status: ${finalStatus.status}`);
+  logger.info(`Type: ${finalStatus.type}`);
+  logger.info(`Created At: ${finalStatus.created_at}`);
+  logger.info(`Connection ID: ${finalStatus.connection_id}`);
+  logger.info(`Users Processed: ${finalStatus.users_processed}`);
+  logger.info(`Users Inserted: ${finalStatus.users_inserted}`);
+  logger.info(`Users Failed: ${finalStatus.users_failed}`);
   if (finalStatus.location) {
-    console.log(`Error Report: ${finalStatus.location}`);
+    logger.warn(`Error Report: ${finalStatus.location}`);
   }
 }
 
