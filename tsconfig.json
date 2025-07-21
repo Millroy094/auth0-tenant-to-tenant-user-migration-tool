@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "lib",
+    "rootDir": ".",
     "outDir": "dist",
     "strict": true,
     "target": "ES2020",
