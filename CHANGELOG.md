@@ -1,5 +1,11 @@
 # auth0-tenant-to-tenant-user-migration-tool
 
+## 1.5.0
+
+### Minor Changes
+
+- Users can now able to migrate roles
+
 ## 1.4.0
 
 ### Minor Changes
