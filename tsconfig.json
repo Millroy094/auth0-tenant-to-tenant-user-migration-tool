@@ -12,6 +12,4 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "exclude": [
-    "__tests__", "node_modules"]
 }

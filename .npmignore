@@ -1,3 +1,7 @@
 lib/
 *.ts
 tsconfig.json
+jest.config.js
+__test__/
+.eslintrc.json
+.prettierrc
