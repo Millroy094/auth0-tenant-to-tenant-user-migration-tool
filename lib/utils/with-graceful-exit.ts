@@ -1,7 +1,9 @@
+import logger from './logger';
+
 export default function withGracefulExit<T extends (...args: any[]) => Promise<any>>(fn: T): T {
   return (async (...args: any[]) => {
     process.once('SIGINT', () => {
-      console.log('\n🛑 Gracefully shutting down...');
+      logger.info('Gracefully shutting down...');
       process.exit(0);
     });
 
@@ -9,9 +11,9 @@ export default function withGracefulExit<T extends (...args: any[]) => Promise<a
       await fn(...args);
     } catch (err: any) {
       if (err.message === 'User force closed the prompt with SIGINT') {
-        console.log('\n🛑 Migration cancelled by user.');
+        logger.info('Migration cancelled by user.');
       } else {
-        console.error('❌ An error occurred:', err);
+        logger.error('An error occurred:', err);
       }
       process.exit(1);
     }

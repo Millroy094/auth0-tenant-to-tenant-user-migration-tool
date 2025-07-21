@@ -9,6 +9,7 @@ import createRole from '../utils/create-role';
 import type { Role, RoleToMigrate } from '../types';
 import type { Command } from 'commander';
 import withGracefulExit from '../utils/with-graceful-exit';
+import logger from '../utils/logger';
 
 const getTokens = async () => {
   const {
@@ -68,7 +69,7 @@ const buildUserRoleMap = async (
 
   for (const role of selectedRoles) {
     try {
-      console.log(`Processing role: ${role.name}`);
+      logger.info(`Processing role: ${role.name}`);
 
       const destinationRole = !role.destinationRoleId
         ? ((await createRole({
@@ -112,7 +113,7 @@ const buildUserRoleMap = async (
         userRoleMap.set(destinationUserId, [...new Set([...existingRoles, destinationRole.id])]);
       }
     } catch (err) {
-      console.error(`Error processing role ${role.name}:`, err);
+      logger.error(`Error processing role ${role.name}:`, err);
     }
   }
 
@@ -137,11 +138,11 @@ const assignRolesInBatches = async (
         assignRolesToUser(destinationDomain, destinationToken, userId, roleIds)
           .then(() => {
             completed++;
-            console.log(`Assigned roles to user ${userId} (${completed}/${total})`);
+            logger.info(`Assigned roles to user ${userId} (${completed}/${total})`);
           })
           .catch((err) => {
             completed++;
-            console.error(`Failed to assign roles to user ${userId} (${completed}/${total}):`, err);
+            logger.error(`Failed to assign roles to user ${userId} (${completed}/${total}):`, err);
           })
       )
     );
@@ -164,9 +165,9 @@ export const migrateUserRoles = async () => {
     destinationToken
   );
 
-  console.log(`🚀 Assigning roles to ${userRoleMap.size} users...`);
+  logger.info(`Assigning roles to ${userRoleMap.size} users...`);
   await assignRolesInBatches(userRoleMap, destinationDomain, destinationToken);
-  console.log('🎉 Migration complete.');
+  logger.info('Migration complete.');
 };
 
 const setupMigrateUserRolesCommand = (program: Command) => {

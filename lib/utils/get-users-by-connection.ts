@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 interface IGetUsersByConnectionParams {
   domain: string;
@@ -23,7 +23,7 @@ export default async function getUsersByConnection({
     },
     params: {
       q: `identities.connection:"${connection}"`,
-      search_engine: "v3",
+      search_engine: 'v3',
       per_page: perPage,
       page,
     },

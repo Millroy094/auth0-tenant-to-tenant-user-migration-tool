@@ -11,6 +11,7 @@ import {
 } from '../utils/request-prerequiste-data';
 import withGracefulExit from '../utils/with-graceful-exit';
 import importUsers from '../utils/import-users';
+import logger from '../utils/logger';
 
 export const migrateUsers = async (): Promise<void> => {
   const {
@@ -85,7 +86,7 @@ export const migrateUsers = async (): Promise<void> => {
       isUpsert: upsert,
     });
   } else {
-    console.log('⚠️ No users found to migrate.');
+    logger.info('No users found to migrate.');
   }
 };
 

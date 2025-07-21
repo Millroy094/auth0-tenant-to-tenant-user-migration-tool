@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default async function getConnections(domain: string, token: string) {
   const response = await axios.get(`https://${domain}/api/v2/connections`, {
@@ -6,7 +6,7 @@ export default async function getConnections(domain: string, token: string) {
       Authorization: `Bearer ${token}`,
     },
     params: {
-      strategy: "auth0",
+      strategy: 'auth0',
     },
   });
 
