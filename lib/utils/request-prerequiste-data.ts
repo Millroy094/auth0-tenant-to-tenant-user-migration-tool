@@ -1,5 +1,6 @@
 import inquirer from "inquirer";
 import getConnections from "./get-connections";
+import type {RoleToMigrate} from "../types";
 
 interface IAuth0Config {
   domain: string;
@@ -138,4 +139,17 @@ export async function requestMigrationDetails(): Promise<{
   ]);
 
   return { fields: [...answers.fields, "email"], upsert: answers.upsert };
+}
+
+export async function selectRolesToMigrate(roles: RoleToMigrate[]): Promise<RoleToMigrate[]> {
+  const answers = await inquirer.prompt([
+    {
+      type: 'checkbox',
+      name: 'roles',
+      message: 'Select the Auth0 roles you want to migrate :',
+      choices: roles.map((role) => ({ name: role.name, value: role })),
+    },
+  ]);
+
+  return answers.roles;
 }
