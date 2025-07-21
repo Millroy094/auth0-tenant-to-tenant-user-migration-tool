@@ -67,8 +67,8 @@ npm install -g auth0-tenant-to-tenant-user-migration-tool
 To start the migration process, simply run:
 
 ```bash
-migrate-auth0-tenant-users migrate-users // For user migration
-migrate-auth0-tenant-users migrate-user-roles // For user roles migration
+auth0-migration migrate-users // For user migration
+auth0-migration migrate-user-roles // For user roles migration
 ```
 
 The CLI will prompt you to enter:

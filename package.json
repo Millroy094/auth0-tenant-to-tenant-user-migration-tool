@@ -4,7 +4,7 @@
   "description": "Auth0 tenant to tenant user migration tool",
   "main": "dist/index.js",
   "bin": {
-    "migrate-auth0-tenant-users": "./dist/index.js"
+    "auth0-migration": "./dist/index.js"
   },
   "scripts": {
     "test": "jest",
