@@ -18,43 +18,50 @@ jest.mock('../../lib/utils/import-users');
 jest.mock('../../lib/utils/with-graceful-exit', () => jest.fn((fn) => fn));
 
 describe('Migrate users', () => {
+  const mockedRequestAuthOConfiguration = requestAuthOConfiguration as jest.Mock;
+  const mockedGetManagementToken = getManagementToken as jest.Mock;
+  const mockedRequestMigrationDetails = requestMigrationDetails as jest.Mock;
+  const mockedGetUserByEmail = getUserByEmail as jest.Mock;
+  const mockedRequestEmail = requestEmail as jest.Mock;
+  const mockedRequestConnection = requestConnection as jest.Mock;
+  const mockedImportUsers = importUsers as jest.Mock;
+  const mockedGetUsersByConnection = getUsersByConnection as jest.Mock;
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('should migrate a single user by email', async () => {
-    (requestAuthOConfiguration as jest.Mock).mockResolvedValueOnce({
+    mockedRequestAuthOConfiguration.mockResolvedValueOnce({
       domain: 'source.auth0.com',
       clientId: 'sourceClientId',
       clientSecret: 'sourceSecret',
     });
-    (getManagementToken as jest.Mock).mockResolvedValueOnce('sourceToken');
-    (requestEmail as jest.Mock).mockResolvedValueOnce('user@example.com');
-    (getUserByEmail as jest.Mock).mockResolvedValueOnce({
+    mockedGetManagementToken.mockResolvedValueOnce('sourceToken');
+    mockedRequestEmail.mockResolvedValueOnce('user@example.com');
+    mockedGetUserByEmail.mockResolvedValueOnce({
       user_id: 'auth0|123',
       email: 'user@example.com',
       name: 'Test User',
     });
 
-    (requestMigrationDetails as jest.Mock).mockResolvedValueOnce({
+    mockedRequestMigrationDetails.mockResolvedValueOnce({
       fields: ['user_id', 'email', 'name'],
       upsert: true,
     });
-    (requestAuthOConfiguration as jest.Mock).mockResolvedValueOnce({
+    mockedRequestAuthOConfiguration.mockResolvedValueOnce({
       domain: 'dest.auth0.com',
       clientId: 'destClientId',
       clientSecret: 'destSecret',
     });
 
-    (getManagementToken as jest.Mock).mockResolvedValueOnce('destToken');
+    mockedGetManagementToken.mockResolvedValueOnce('destToken');
 
-    (requestConnection as jest.Mock).mockResolvedValueOnce('destConnectionId');
-
-    const importUsersMock = importUsers as jest.Mock;
+    mockedRequestConnection.mockResolvedValueOnce('destConnectionId');
 
     await migrateUsers();
 
-    expect(importUsersMock).toHaveBeenCalledWith(
+    expect(mockedImportUsers).toHaveBeenCalledWith(
       expect.objectContaining({
         users: [{ user_id: '123', email: 'user@example.com', name: 'Test User' }],
         token: 'destToken',
@@ -66,16 +73,16 @@ describe('Migrate users', () => {
   });
 
   it('should log user not found when email is invalid', async () => {
-    (requestAuthOConfiguration as jest.Mock).mockResolvedValueOnce({
+    mockedRequestAuthOConfiguration.mockResolvedValueOnce({
       domain: 'source.auth0.com',
       clientId: 'sourceClientId',
       clientSecret: 'sourceSecret',
     });
-    (getManagementToken as jest.Mock).mockResolvedValueOnce('sourceToken');
-    (requestEmail as jest.Mock).mockResolvedValueOnce('user@example.com');
-    (getUserByEmail as jest.Mock).mockResolvedValueOnce(null);
+    mockedGetManagementToken.mockResolvedValueOnce('sourceToken');
+    mockedRequestEmail.mockResolvedValueOnce('user@example.com');
+    mockedGetUserByEmail.mockResolvedValueOnce(null);
 
-    (requestMigrationDetails as jest.Mock).mockResolvedValueOnce({
+    mockedRequestMigrationDetails.mockResolvedValueOnce({
       fields: ['user_id', 'email', 'name'],
       upsert: true,
     });
@@ -84,14 +91,14 @@ describe('Migrate users', () => {
   });
 
   it('should migrate users by connection', async () => {
-    (requestAuthOConfiguration as jest.Mock).mockResolvedValueOnce({
+    mockedRequestAuthOConfiguration.mockResolvedValueOnce({
       domain: 'source.auth0.com',
       clientId: 'sourceClientId',
       clientSecret: 'sourceSecret',
     });
-    (getManagementToken as jest.Mock).mockResolvedValueOnce('sourceToken');
-    (requestConnection as jest.Mock).mockResolvedValueOnce('srcConnectionId');
-    (getUsersByConnection as jest.Mock).mockResolvedValueOnce([
+    mockedGetManagementToken.mockResolvedValueOnce('sourceToken');
+    mockedRequestConnection.mockResolvedValueOnce('srcConnectionId');
+    mockedGetUsersByConnection.mockResolvedValueOnce([
       {
         user_id: 'auth0|123',
         email: 'user123@example.com',
@@ -104,24 +111,23 @@ describe('Migrate users', () => {
       },
     ]);
 
-    (requestMigrationDetails as jest.Mock).mockResolvedValueOnce({
+    mockedRequestMigrationDetails.mockResolvedValueOnce({
       fields: ['user_id', 'email', 'name'],
       upsert: true,
     });
-    (requestAuthOConfiguration as jest.Mock).mockResolvedValueOnce({
+    mockedRequestAuthOConfiguration.mockResolvedValueOnce({
       domain: 'dest.auth0.com',
       clientId: 'destClientId',
       clientSecret: 'destSecret',
     });
 
-    (getManagementToken as jest.Mock).mockResolvedValueOnce('destToken');
+    mockedGetManagementToken.mockResolvedValueOnce('destToken');
 
-    (requestConnection as jest.Mock).mockResolvedValueOnce('destConnectionId');
-    const importUsersMock = importUsers as jest.Mock;
+    mockedRequestConnection.mockResolvedValueOnce('destConnectionId');
 
     await migrateUsers();
 
-    expect(importUsersMock).toHaveBeenCalledWith(
+    expect(mockedImportUsers).toHaveBeenCalledWith(
       expect.objectContaining({
         users: [
           {
