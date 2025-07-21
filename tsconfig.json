@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
+    "rootDir": "lib",
     "outDir": "dist",
     "strict": true,
     "target": "ES2020",
@@ -11,5 +11,7 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
-  }
+  },
+  "exclude": [
+    "__tests__", "node_modules"]
 }
