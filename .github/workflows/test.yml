@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: test -- --coverage
+        run: npm run test -- --coverage
 
       - name: Upload coverage report
         if: success()
