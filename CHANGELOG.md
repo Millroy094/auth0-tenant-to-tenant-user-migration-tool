@@ -1,5 +1,11 @@
 # auth0-tenant-to-tenant-user-migration-tool
 
+## 2.0.0
+
+### Major Changes
+
+- Updated the command for migration
+
 ## 1.5.0
 
 ### Minor Changes
