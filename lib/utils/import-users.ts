@@ -102,7 +102,7 @@ async function importUsers({
   if (finalStatus.summary.failed > 0) {
     const errors = await getImportJobErrors(jobId, token, tenantDomain);
     if (errors.length > 0) {
-      logger.warn('⚠️ Import Errors:');
+      logger.warn('Import Errors:');
       errors.forEach((err, index) => {
         const userId = err.user?.user_id || 'N/A';
         const name = err.user?.name || 'N/A';
@@ -117,7 +117,7 @@ async function importUsers({
         );
       });
     } else {
-      logger.warn('⚠️ No detailed error information returned.');
+      logger.warn('No detailed error information returned.');
     }
   }
 }
